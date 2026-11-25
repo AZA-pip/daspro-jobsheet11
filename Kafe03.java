@@ -1,15 +1,35 @@
+import java.util.Scanner;
 public class Kafe03 {
     public static void main(String[] args) {
-        Menu("Andi", true);
+        Scanner sc = new Scanner (System.in);
+        String nama="";
+        boolean member;
+        int jamKunjung=0;
+
+        System.out.print("Masukkan nama: ");
+        nama = sc.nextLine();
+        System.out.print("Apakah kamu member? (true/false): ");
+        member = sc.nextBoolean();
+        System.out.print("Masukkan jam kunjungan: ");
+        jamKunjung = sc.nextInt();
+
+        Menu(nama, member,jamKunjung);
+
+        sc.close();
     }
 
-    public static void Menu(String namaPelanggan, boolean isMember){
+    public static void Menu(String namaPelanggan, boolean isMember, int jam){
     System.out.println("Selamat datang, "+ namaPelanggan + "!");
 
     if(isMember){
         System.out.println("Anda adalah member , dapatkan diskon 10% untuk setiap pembelian!");
     }
     
+    if(jam >= 14 && jam <=16 ){
+        System.out.println("Happy Hour! Diskon 20% untuk semua minuman");
+    }
+    
+
     System.out.println("===== MENU RESTO KAFE =====");
     System.out.println("1. Kopi Hitam - Rp 15,000");
     System.out.println("2. Cappuccino - Rp 20,000");
