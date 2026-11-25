@@ -15,14 +15,33 @@ public class Kafe03 {
 
         Menu(nama, member,jamKunjung);
 
-        System.out.print("\nMasukkan nomor menu yang ingin Anda pesan: ");
-        int pilihanMenu= sc.nextInt();
-        System.out.print("Masukkan jumlah item yang ingin dipesan: ");
-        int banyakItem  = sc.nextInt();
+        int total = 0;
+        char lagi;
+        do {
+            System.out.print("\nMasukkan nomor menu yang ingin Anda pesan: ");
+            int pilihanMenu = sc.nextInt();
 
-        int totalBayar = hitungTotalHarga03(pilihanMenu, banyakItem);
+            if (pilihanMenu < 1 || pilihanMenu > 6) {
+                System.out.println("Menu tidak tersedia");
+            } else {
+                System.out.print("Masukkan jumlah item yang ingin dipesan: ");
+                int banyakItem = sc.nextInt();
+                total += hitungTotalHarga03(pilihanMenu, banyakItem);
+            }
 
-        System.out.println("Total harga untuk pesanan Anda: Rp"+totalBayar);
+            System.out.print("Pesan menu lain? (y/n): ");
+            lagi = sc.next().charAt(0);
+        } while (lagi == 'y' || lagi == 'Y');
+
+        System.out.print("Masukkan kode promo (atau '-' jika tidak ada): ");
+        String kodePromo = sc.next();
+
+        int diskon = hitungDiskon(total, kodePromo, member);
+        int totalAkhir = total - diskon;
+
+        System.out.println("\nTotal harga     : Rp" + total);
+        System.out.println("Diskon          : Rp" + diskon);
+        System.out.println("Total dibayar   : Rp" + totalAkhir);
 
         sc.close();
     }
@@ -42,7 +61,7 @@ public class Kafe03 {
     System.out.println("===== MENU RESTO KAFE =====");
     System.out.println("1. Kopi Hitam - Rp 15,000");
     System.out.println("2. Cappuccino - Rp 20,000");
-    System.out.println("3. Latte - Rp 12,000");
+    System.out.println("3. Latte - Rp 22,000");
     System.out.println("4. Teh Tarik - 12,000");
     System.out.println("5. Roti Bakar - Rp 10,000");
     System.out.println("6. Mie Goreng - Rp 18,000");
@@ -56,6 +75,24 @@ public class Kafe03 {
 
         int hargaTotal = hargaItems[pilihanMenu -1 ]* banyakItem;
         return hargaTotal;
+    }
+
+    public static int hitungDiskon(int total, String kodePromo, boolean isMember) {
+        int persen = 0;
+        if (kodePromo.equals("DISKON50")){
+            persen = 50;
+        }
+        else if(kodePromo.equals("DISKON30")){
+            persen = 30;
+        }
+        else{
+            System.out.println("Kode promo tidak valid");
+        }
+
+        if(isMember){
+            persen += 10;
+        }
+        return total * persen/100;
     }
 }
 
